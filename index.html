@@ -3,39 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <title>SDIP — Sistem Dokumentasi dan Informasi Peraturan Perusahaan</title>
 <style>
 /* ── RESET & BASE ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
   font-size: 14px;
-  color: #1a1a2e;
-  background: #f0f2f5;
+  color: #14181F;
+  background: #EEF1F6;
   min-height: 100vh;
 }
 a { text-decoration: none; color: inherit; }
 
 /* ── WARNA TEMA ───────────────────────────────────────────── */
-/* Mengikuti estetika BPK: merah-putih-abu institusional */
+/* Tema sporty . modern . clean -- aksen oranye energik + navy gelap */
 :root {
-  --merah:      #c0392b;
-  --merah-tua:  #96281b;
-  --merah-muda: #f9e8e7;
-  --biru-tua:   #1c2d5e;
-  --biru:       #234990;
-  --biru-muda:  #e8edf8;
-  --abu:        #6b7280;
-  --abu-muda:   #e5e7eb;
-  --abu-bg:     #f8f9fb;
-  --putih:      #ffffff;
-  --teks:       #1a1a2e;
-  --border:     #d1d5db;
-  --hijau:      #166534;
-  --hijau-bg:   #dcfce7;
-  --kuning:     #854d0e;
-  --kuning-bg:  #fef9c3;
+  --merah:        #FF4E24;
+  --merah-tua:    #DB3B14;
+  --merah-muda:   #FFE4DA;
+  --biru-tua:     #131B33;
+  --biru:         #2F6FED;
+  --biru-muda:    #E9F0FE;
+  --abu:          #6B7280;
+  --abu-muda:     #E5E9F0;
+  --abu-bg:       #F6F8FB;
+  --putih:        #ffffff;
+  --teks:         #14181F;
+  --border:       #DDE2EA;
+  --hijau:        #15803D;
+  --hijau-bg:     #DCFCE7;
+  --kuning:       #A15C07;
+  --kuning-bg:    #FEF3C7;
+  --error-bg:     #FEE7E2;
+  --error-teks:   #C22B10;
+  --error-border: #F6BBAC;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -78,10 +84,12 @@ header {
 }
 
 .nama-perusahaan {
-  font-size: 12px;
-  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  font-weight: 800;
   color: var(--biru-tua);
   line-height: 1.4;
+  letter-spacing: 0.2px;
 }
 .nama-dept { font-size: 11px; font-weight: 400; color: var(--abu); }
 
@@ -552,6 +560,7 @@ nav.nav-utama {
   color: rgba(255,255,255,0.6);
 }
 .detail-judul {
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   font-weight: 800;
   color: white;
@@ -901,7 +910,10 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: linear-gradient(135deg, var(--biru-tua) 0%, #0f1a3d 100%);
+  background:
+    radial-gradient(circle at 12% 12%, rgba(255,78,36,0.28), transparent 45%),
+    radial-gradient(circle at 88% 90%, rgba(47,111,237,0.22), transparent 45%),
+    linear-gradient(135deg, var(--biru-tua) 0%, #060912 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -923,9 +935,10 @@ footer {
 }
 .login-kepala img { height: 46px; width: auto; display: block; margin: 0 auto 12px; }
 .login-kepala h1 {
+  font-family: 'Poppins', sans-serif;
   color: white;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   letter-spacing: 0.3px;
 }
 .login-kepala p {
@@ -977,7 +990,7 @@ footer {
   display: none;
 }
 .login-pesan.tampil { display: block; }
-.login-pesan.error { background: var(--merah-muda); color: var(--merah-tua); border: 1px solid #f0c4c0; }
+.login-pesan.error { background: var(--error-bg); color: var(--error-teks); border: 1px solid var(--error-border); }
 .login-pesan.loading { background: var(--biru-muda); color: var(--biru-tua); border: 1px solid #c7d6f0; }
 .login-footer {
   text-align: center;
@@ -1913,11 +1926,16 @@ document.addEventListener('keydown', e => {
 });
 
 /* ══════════════════════════════════════════════════════════
-   LOGIN — Google Apps Script sebagai penjaga pintu
+   LOGIN — database akun lokal (tanpa server luar)
 ══════════════════════════════════════════════════════════ */
 
-// GANTI dengan URL Web App Google Apps Script Anda setelah di-deploy
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlhmUT7gji22jxKddYDBoQF9P22ENAQzqLNCwp-H_wKJv84HbiicuIlOPCndnRxRvh/exec";
+// DATABASE AKUN — edit / tambah baris di sini sesuai kebutuhan.
+// Username & password bebas diganti. "nama" & "level" akan tampil setelah login.
+const DATABASE_AKUN = [
+  { username: "admin",   password: "admin123",   nama: "Administrator", level: "Admin"   },
+  { username: "spv",     password: "spv123",     nama: "SPV HRGA",      level: "SPV"     },
+  { username: "manager", password: "manager123", nama: "Manager HRGA",  level: "Manager" }
+];
 
 function tampil_pesan_login(teks, jenis) {
   const el = document.getElementById('loginPesan');
@@ -1925,7 +1943,7 @@ function tampil_pesan_login(teks, jenis) {
   el.className = 'login-pesan tampil ' + jenis;
 }
 
-async function lakukan_login() {
+function lakukan_login() {
   const username = document.getElementById('inputUsername').value.trim();
   const password = document.getElementById('inputPassword').value;
   const tombol = document.getElementById('tombolLogin');
@@ -1935,35 +1953,25 @@ async function lakukan_login() {
     return;
   }
 
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'GANTI_DENGAN_URL_APPS_SCRIPT_ANDA') {
-    tampil_pesan_login('Sistem login belum dikonfigurasi. Hubungi HRGA-IT.', 'error');
-    return;
-  }
-
   tombol.disabled = true;
   tampil_pesan_login('Memeriksa akses...', 'loading');
 
-  try {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // hindari CORS preflight
-      body: JSON.stringify({ username, password })
-    });
-    const hasil = await res.json();
+  // Cocokkan ke database akun lokal (username tidak case-sensitive)
+  setTimeout(() => {
+    const akun = DATABASE_AKUN.find(u =>
+      u.username.toLowerCase() === username.toLowerCase() && u.password === password
+    );
 
-    if (hasil.sukses) {
+    if (akun) {
       sessionStorage.setItem('sdip_auth', JSON.stringify({
-        nama: hasil.nama, level: hasil.level, waktu: Date.now()
+        nama: akun.nama, level: akun.level, waktu: Date.now()
       }));
-      buka_aplikasi(hasil.nama, hasil.level);
+      buka_aplikasi(akun.nama, akun.level);
     } else {
-      tampil_pesan_login(hasil.pesan || 'Username atau password salah.', 'error');
+      tampil_pesan_login('Username atau password salah.', 'error');
       tombol.disabled = false;
     }
-  } catch (err) {
-    tampil_pesan_login('Gagal terhubung ke server login. Coba lagi.', 'error');
-    tombol.disabled = false;
-  }
+  }, 250);
 }
 
 function buka_aplikasi(nama, level) {
