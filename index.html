@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JDIP — Jaringan Dokumentasi dan Informasi Peraturan Perusahaan</title>
+<title>SDIP — Sistem Dokumentasi dan Informasi Peraturan Perusahaan</title>
 <style>
 /* ── RESET & BASE ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -893,14 +893,138 @@ footer {
   .meta-sel:nth-child(2n) { border-right: none; }
   .meta-sel:nth-child(odd) { border-right: 1px solid var(--border); }
 }
+
+/* ══════════════════════════════════════════════════════════
+   HALAMAN LOGIN
+══════════════════════════════════════════════════════════ */
+#gerbangLogin {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, var(--biru-tua) 0%, #0f1a3d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.kotak-login {
+  background: var(--putih);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 380px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+.login-kepala {
+  background: var(--merah);
+  padding: 28px 28px 22px;
+  text-align: center;
+  border-bottom: 4px solid var(--merah-tua);
+}
+.login-kepala img { height: 46px; width: auto; display: block; margin: 0 auto 12px; }
+.login-kepala h1 {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.login-kepala p {
+  color: rgba(255,255,255,0.8);
+  font-size: 11.5px;
+  margin-top: 4px;
+}
+.login-badan { padding: 26px 28px 28px; }
+.login-grup { margin-bottom: 16px; }
+.login-label {
+  font-size: 11px; font-weight: 700; color: var(--abu);
+  text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; display: block;
+}
+.login-input {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+  font-size: 13.5px;
+  font-family: inherit;
+  outline: none;
+  background: var(--abu-bg);
+  color: var(--teks);
+  transition: border-color .15s;
+}
+.login-input:focus { border-color: var(--biru); background: #fff; }
+.tombol-login {
+  width: 100%;
+  background: var(--merah);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background .15s;
+  margin-top: 4px;
+}
+.tombol-login:hover { background: var(--merah-tua); }
+.tombol-login:disabled { background: var(--abu); cursor: not-allowed; }
+.login-pesan {
+  font-size: 12px;
+  padding: 10px 12px;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  display: none;
+}
+.login-pesan.tampil { display: block; }
+.login-pesan.error { background: var(--merah-muda); color: var(--merah-tua); border: 1px solid #f0c4c0; }
+.login-pesan.loading { background: var(--biru-muda); color: var(--biru-tua); border: 1px solid #c7d6f0; }
+.login-footer {
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--abu);
+  margin-top: 18px;
+  line-height: 1.6;
+}
+#appKonten { display: none; }
 </style>
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════════════════════
+     GERBANG LOGIN
+══════════════════════════════════════════════════════════ -->
+<div id="gerbangLogin">
+  <div class="kotak-login">
+    <div class="login-kepala">
+      <img id="loginLogo" src="" alt="Granostic">
+      <h1>Portal Peraturan Internal</h1>
+      <p>Akses khusus karyawan yang berwenang (SPV / Manager)</p>
+    </div>
+    <div class="login-badan">
+      <div class="login-pesan" id="loginPesan"></div>
+      <div class="login-grup">
+        <label class="login-label">Username</label>
+        <input type="text" class="login-input" id="inputUsername" autocomplete="username" placeholder="Masukkan username">
+      </div>
+      <div class="login-grup">
+        <label class="login-label">Password</label>
+        <input type="password" class="login-input" id="inputPassword" autocomplete="current-password" placeholder="Masukkan password">
+      </div>
+      <button class="tombol-login" id="tombolLogin" onclick="lakukan_login()">Masuk</button>
+      <div class="login-footer">
+        Lupa password? Hubungi HRGA-IT Department (ext. 301)<br>
+        untuk permintaan reset akses.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="appKonten">
 <!-- STRIP ATAS -->
 <div class="strip-atas">
   <span>🏢 Granostic &nbsp;|&nbsp; Portal Dokumentasi Internal</span>
-  <span>⚙️ Dikelola: HR &amp; Legal Department &nbsp;|&nbsp; Kontak: ext. 101</span>
+  <span>⚙️ Dikelola: HRGA-IT Department &nbsp;|&nbsp; Kontak: ext. 301</span>
 </div>
 
 <!-- HEADER -->
@@ -911,7 +1035,7 @@ footer {
   <div class="header-divider"></div>
   <div>
     <div class="nama-perusahaan">Granostic</div>
-    <div class="nama-dept">HR &amp; Legal Department</div>
+    <div class="nama-dept">HRGA-IT Department</div>
   </div>
   <div class="search-header">
     <input type="text" id="inputCari" placeholder="Cari nomor, judul, atau kata kunci..." oninput="lakukan_cari(this.value)" />
@@ -922,10 +1046,10 @@ footer {
 <!-- NAV -->
 <nav class="nav-utama">
   <div class="nav-item aktif" onclick="ganti_nav(this,'semua')">Beranda</div>
-  <div class="nav-item" onclick="ganti_nav(this,'SK')">Surat Keputusan</div>
-  <div class="nav-item" onclick="ganti_nav(this,'SOP')">SOP</div>
-  <div class="nav-item" onclick="ganti_nav(this,'SE')">Surat Edaran</div>
-  <div class="nav-item" onclick="ganti_nav(this,'PKB')">PKB</div>
+  <div class="nav-item" onclick="ganti_nav(this,'SK')">Surat Keputusan Direksi</div>
+  <div class="nav-item" onclick="ganti_nav(this,'SOP')">Standar Prosedur Operasional</div>
+  <div class="nav-item" onclick="ganti_nav(this,'SE')">Memo Internal</div>
+  <div class="nav-item" onclick="ganti_nav(this,'PKB')">Perjanjian Kerja Sama</div>
   <div class="nav-item" onclick="ganti_nav(this,'POL')">Kebijakan</div>
 </nav>
 
@@ -958,12 +1082,13 @@ footer {
             <div class="form-label">Departemen Penerbit</div>
             <select class="form-select" id="filterDept" onchange="terapkan_filter()">
               <option value="">— Semua Departemen —</option>
-              <option value="HRD">HRD</option>
-              <option value="Keuangan">Keuangan</option>
-              <option value="Operasional">Operasional</option>
-              <option value="Teknologi Informasi">Teknologi Informasi</option>
-              <option value="Legal">Legal &amp; Kepatuhan</option>
-              <option value="Direksi">Direksi</option>
+              <option value="HRD">HRGA-IT</option>
+              <option value="Finance &amp; Accounting">Finacc</option>
+              <option value="Clinic">Clinic</option>
+              <option value="Laboratory">Laboratory</option>
+              <option value="Sales &amp; Marketing">Marketing</option>
+	      <option value="Tim &amp; Mutu">Tim Mutu</option>
+              <option value="Board of Director">Direksi</option>
             </select>
           </div>
           <div class="form-grup">
@@ -1007,13 +1132,13 @@ footer {
       </div>
 
       <div class="kotak">
-        <div class="kotak-kepala">📞 Kontak HR Dept.</div>
+        <div class="kotak-kepala">📞 Contact Us</div>
         <div class="kotak-isi">
           <div class="info-kontak">
             <strong>Pertanyaan seputar peraturan:</strong><br>
-            📞 Ext. 101 / 102<br>
-            📧 hr@perusahaan.com<br>
-            📍 Gedung A, Lt. 3<br>
+            📞 Ext. 301<br>
+            📧 hrga.granostic@gmail.com<br>
+            📍 Granostic Tower, Lt. 3<br>
             🕐 Senin–Jumat, 08.00–17.00
           </div>
         </div>
@@ -1115,19 +1240,19 @@ footer {
 <footer>
   <div class="footer-atas">
     <div class="footer-kolom">
-      <div class="footer-kolom-judul">Tentang JDIP</div>
+      <div class="footer-kolom-judul">Tentang SDIP</div>
       <p style="font-size:12px;line-height:1.7;color:rgba(255,255,255,0.6);">
-        JDIP adalah portal internal Granostic untuk mendistribusikan peraturan, SOP, dan kebijakan perusahaan kepada seluruh karyawan secara terpusat.
+        SDIP adalah portal internal Granostic untuk mendistribusikan peraturan, SOP, dan kebijakan perusahaan kepada seluruh karyawan secara terpusat.
       </p>
     </div>
     <div class="footer-kolom">
       <div class="footer-kolom-judul">Navigasi</div>
       <ul>
         <li><a href="#">Semua Peraturan</a></li>
-        <li><a href="#">Surat Keputusan</a></li>
-        <li><a href="#">SOP</a></li>
-        <li><a href="#">Surat Edaran</a></li>
-        <li><a href="#">PKB</a></li>
+        <li><a href="#">Surat Keputusan Direksi</a></li>
+        <li><a href="#">Standar Prosedur Operasional</a></li>
+        <li><a href="#">Memo Internal</a></li>
+        <li><a href="#">Perjanjian Kerja Sama</a></li>
       </ul>
     </div>
     <div class="footer-kolom">
@@ -1135,7 +1260,7 @@ footer {
       <ul>
         <li><a href="#">Google Drive Perusahaan</a></li>
         <li><a href="#">Sistem HR Internal</a></li>
-        <li><a href="#">Email HR Dept.</a></li>
+        <li><a href="#">Email HRGA-IT Dept.</a></li>
         <li><a href="#">Panduan Penggunaan</a></li>
       </ul>
     </div>
@@ -1145,12 +1270,11 @@ footer {
         📊 Google Sheets — Database<br>
         📁 Google Drive — Arsip PDF<br>
         🌐 GitHub Pages — Hosting<br>
-        <span style="color:#6ee7b7;font-weight:600;">✓ Seluruhnya gratis (free tier)</span>
-      </div>
+     </div>
     </div>
   </div>
   <div class="footer-bawah">
-    © 2026 <strong>Granostic</strong> · JDIP — Jaringan Dokumentasi dan Informasi Peraturan · Dikelola oleh HR &amp; Legal Department · Hanya untuk penggunaan internal
+    © 2026 <strong>Granostic</strong> · SDIP — Sistem Dokumentasi dan Informasi Peraturan · Dikelola oleh HRGA-IT Department · Hanya untuk penggunaan internal
   </div>
 </footer>
 
@@ -1189,9 +1313,9 @@ footer {
    4. Klik Publish → salin URL yang muncul
    5. Tempel URL tersebut di bawah ini (ganti teks GANTI_DENGAN_URL_CSV_ANDA)
    ══════════════════════════════════════════════════════════════════ */
-const SHEET_CSV_URL = "GANTI_DENGAN_URL_CSV_ANDA";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR0OcDTHhjmt_vZBEsYk8PJfghh75MgKef2lI3LvgyDV2mjIJJrSIK9kJBbOuOifTjU4eV2_8GjdLdL/pub?gid=0&single=true&output=csv";
 // Contoh URL yang benar:
-// "https://docs.google.com/spreadsheets/d/1aBcDeFgH.../pub?gid=0&single=true&output=csv"
+// "https://docs.google.com/spreadsheets/d/e/2PACX-1vR0OcDTHhjmt_vZBEsYk8PJfghh75MgKef2lI3LvgyDV2mjIJJrSIK9kJBbOuOifTjU4eV2_8GjdLdL/pub?gid=0&single=true&output=csv"
 
 /* ══════════════════════════════════════════════════════════════════
    STRUKTUR KOLOM GOOGLE SHEETS (urutan wajib sama persis):
@@ -1788,9 +1912,101 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') tutup_pdf_modal();
 });
 
+/* ══════════════════════════════════════════════════════════
+   LOGIN — Google Apps Script sebagai penjaga pintu
+══════════════════════════════════════════════════════════ */
+
+// GANTI dengan URL Web App Google Apps Script Anda setelah di-deploy
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlhmUT7gji22jxKddYDBoQF9P22ENAQzqLNCwp-H_wKJv84HbiicuIlOPCndnRxRvh/exec";
+
+function tampil_pesan_login(teks, jenis) {
+  const el = document.getElementById('loginPesan');
+  el.textContent = teks;
+  el.className = 'login-pesan tampil ' + jenis;
+}
+
+async function lakukan_login() {
+  const username = document.getElementById('inputUsername').value.trim();
+  const password = document.getElementById('inputPassword').value;
+  const tombol = document.getElementById('tombolLogin');
+
+  if (!username || !password) {
+    tampil_pesan_login('Username dan password wajib diisi.', 'error');
+    return;
+  }
+
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'GANTI_DENGAN_URL_APPS_SCRIPT_ANDA') {
+    tampil_pesan_login('Sistem login belum dikonfigurasi. Hubungi HRGA-IT.', 'error');
+    return;
+  }
+
+  tombol.disabled = true;
+  tampil_pesan_login('Memeriksa akses...', 'loading');
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // hindari CORS preflight
+      body: JSON.stringify({ username, password })
+    });
+    const hasil = await res.json();
+
+    if (hasil.sukses) {
+      sessionStorage.setItem('sdip_auth', JSON.stringify({
+        nama: hasil.nama, level: hasil.level, waktu: Date.now()
+      }));
+      buka_aplikasi(hasil.nama, hasil.level);
+    } else {
+      tampil_pesan_login(hasil.pesan || 'Username atau password salah.', 'error');
+      tombol.disabled = false;
+    }
+  } catch (err) {
+    tampil_pesan_login('Gagal terhubung ke server login. Coba lagi.', 'error');
+    tombol.disabled = false;
+  }
+}
+
+function buka_aplikasi(nama, level) {
+  document.getElementById('gerbangLogin').style.display = 'none';
+  document.getElementById('appKonten').style.display = 'block';
+  // Tampilkan nama user yang login di strip atas
+  const stripKanan = document.querySelector('.strip-atas span:last-child');
+  if (stripKanan) {
+    stripKanan.innerHTML = `👤 ${nama} (${level}) &nbsp;|&nbsp; <a href="#" onclick="lakukan_logout(); return false;" style="text-decoration:underline;">Keluar</a>`;
+  }
+  muat_data();
+}
+
+function lakukan_logout() {
+  sessionStorage.removeItem('sdip_auth');
+  location.reload();
+}
+
+// Tekan Enter di kolom password untuk langsung login
+document.getElementById('inputPassword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') lakukan_login();
+});
+
 /* ── INIT ── */
-muat_data();
+(function initGerbang() {
+  // Pakai logo yang sama dengan yang sudah ada di header aplikasi
+  const logoUtama = document.querySelector('.logo-area img');
+  if (logoUtama) document.getElementById('loginLogo').src = logoUtama.src;
+
+  // Cek apakah user masih dalam sesi login (session ini / tab ini)
+  const sesi = sessionStorage.getItem('sdip_auth');
+  if (sesi) {
+    try {
+      const data = JSON.parse(sesi);
+      buka_aplikasi(data.nama, data.level);
+    } catch (e) {
+      sessionStorage.removeItem('sdip_auth');
+    }
+  }
+})();
 </script>
+
+</div><!-- /appKonten -->
 
 </body>
 </html>
